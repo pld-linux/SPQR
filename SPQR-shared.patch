@@ -208,19 +208,19 @@
  spqr_rmap.o: ../Source/spqr_rmap.cpp
 -	$(C) -c $<
 +	libtool --tag=CXX --mode=compile $(C) -c $<
---- SPQR/Demo/Makefile.orig	2012-01-08 12:26:25.106307954 +0100
-+++ SPQR/Demo/Makefile	2012-01-08 12:36:06.779660766 +0100
-@@ -24,7 +24,7 @@
+--- SPQR/Demo/Makefile.orig	2012-06-27 19:01:18.418478492 +0200
++++ SPQR/Demo/Makefile	2012-06-27 19:01:37.301811034 +0200
+@@ -23,7 +23,7 @@
  endif
  #-------------------------------------------------------------------------------
  
 -CLIB = ../Lib/libspqr.a \
 +CLIB = ../Lib/libspqr.la \
- 	-lcholmod -lamd -lcolamd $(LIB_WITH_PARTITION) -lm
+ 	-lcholmod -lamd \
+ 	-lcolamd $(LIB_WITH_PARTITION)
  
- # use the BLAS and LAPACK defined by UFconfig.mk; do not use valgrind 
-@@ -120,22 +120,22 @@
- LIBS = $(CLIB) $(FLIB) $(TBB) $(RTLIB)
+@@ -140,22 +140,22 @@
+ LIBS = $(CLIB) $(LIB) $(FLIB) $(TBB)
  
  qrsimple: qrsimple.cpp library $(INC)
 -	$(C) qrsimple.cpp -o qrsimple $(LIBS)

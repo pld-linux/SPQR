@@ -1,19 +1,20 @@
 Summary:	SuiteSparseQR: multithreaded multifrontal sparse QR factorization
 Summary(pl.UTF-8):	SuiteSparseQR - wielowątkowy, wielofrontalny rozkład QR dla macierzy rzadkich
 Name:		SPQR
-Version:	1.2.3
+Version:	1.3.0
 Release:	1
 License:	GPL v2+
 Group:		Libraries
 Source0:	http://www.cise.ufl.edu/research/sparse/SPQR/%{name}-%{version}.tar.gz
-# Source0-md5:	65e12826a2a3d11a774c517990eabdd7
+# Source0-md5:	0c3838dda38b56b2186b0d225ffc089f
 Patch0:		%{name}-ufconfig.patch
 Patch1:		%{name}-shared.patch
 URL:		http://www.cise.ufl.edu/research/sparse/SPQR/
-BuildRequires:	CHOLMOD-devel >= 1.7.4
-BuildRequires:	UFconfig >= 3.7.0
+BuildRequires:	CHOLMOD-devel >= 2.0.0
+BuildRequires:	SuiteSparse_config-devel >= 4.0.0
 BuildRequires:	libstdc++-devel
 BuildRequires:	libtool >= 2:1.5
+Requires:	CHOLMOD >= 2.0.0
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
@@ -40,8 +41,8 @@ Summary:	Header files for SPQR library
 Summary(pl.UTF-8):	Pliki nagłówkowe biblioteki SPQR
 Group:		Development/Libraries
 Requires:	%{name} = %{version}-%{release}
-Requires:	CHOLMOD-devel >= 1.7.4
-Requires:	UFconfig >= 3.7.0
+Requires:	CHOLMOD-devel >= 2.0.0
+Requires:	SuiteSparse_config-devel >= 4.0.0
 Requires:	libstdc++-devel
 
 %description devel
