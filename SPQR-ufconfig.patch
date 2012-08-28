@@ -9,8 +9,8 @@
  
  default: all
  
---- SPQR/Lib/Makefile.orig	2011-12-14 18:48:21.000000000 +0100
-+++ SPQR/Lib/Makefile	2012-01-07 15:36:22.723796599 +0100
+--- SPQR/Lib/Makefile.orig	2012-06-21 07:37:08.000000000 +0200
++++ SPQR/Lib/Makefile	2012-08-28 19:36:19.380393578 +0200
 @@ -6,7 +6,7 @@
  
  ccode: all
@@ -20,23 +20,31 @@
  
  #-------------------------------------------------------------------------------
  # the optional Partition module requires METIS, CAMD, and CCOLAMD
-@@ -14,13 +14,10 @@
+@@ -15,18 +15,13 @@
+ CONFIG = -DNPARTITION
  # check if METIS is requested and available
  ifeq (,$(findstring -DNPARTITION, $(CHOLMOD_CONFIG)))
-     # METIS is requested.  See if it is available
--    ifeq ($(METIS), $(wildcard $(METIS)))
+-    # METIS is requested.  See if it is available
+-    ifeq ($(METIS_PATH), $(wildcard $(METIS_PATH)))
 -        ifeq (../../CAMD, $(wildcard ../../CAMD))
 -            ifeq (../../CCOLAMD, $(wildcard ../../CCOLAMD))
++    # METIS is requested.
 +    ifeq ($(WITH_METIS), 1)
-+	# assume CAMD and CCOLAMD are available
-                 # METIS, CAMD, and CCOLAMD is available
+                 # METIS, CAMD, and CCOLAMD are available
+-                LIB_WITH_PARTITION = $(METIS) ../../CCOLAMD/Lib/libccolamd.a \
+-                    ../../CAMD/Lib/libcamd.a
+-                I_WITH_PARTITION = -I$(METIS_PATH)/Lib \
+-                    -I../../CCOLAMD/Include -I../../CAMD/Include
++                LIB_WITH_PARTITION = -lmetis -lccolamd -lcamd
++                I_WITH_PARTITION = -I/usr/include/metis \
++                    -I/usr/include/ccolamd -I/usr/include/camd
                  CONFIG =
 -            endif
 -        endif
      endif
  endif
  #-------------------------------------------------------------------------------
-@@ -91,7 +88,7 @@
+@@ -97,7 +92,7 @@
  
  $(OBJ): $(INC)
  
@@ -45,8 +53,8 @@
  
  C = $(CXX) $(CF) $(SPQR_CONFIG) $(CONFIG) $(I)
  
---- SPQR/Demo/Makefile.orig	2012-05-28 15:15:40.000000000 +0200
-+++ SPQR/Demo/Makefile	2012-06-27 19:00:41.468480043 +0200
+--- SPQR/Demo/Makefile.orig	2012-06-21 07:47:51.000000000 +0200
++++ SPQR/Demo/Makefile	2012-08-28 19:38:04.650391386 +0200
 @@ -6,7 +6,7 @@
  
  ccode: all
@@ -56,23 +64,27 @@
  
  #-------------------------------------------------------------------------------
  # the optional Partition module requires METIS, CAMD, and CCOLAMD
-@@ -15,24 +15,17 @@
+@@ -15,26 +15,20 @@
+ CONFIG = -DNPARTITION
  # check if METIS is requested and available
  ifeq (,$(findstring -DNPARTITION, $(CHOLMOD_CONFIG)))
-     # METIS is requested.  See if it is available
--    ifeq ($(METIS), $(wildcard $(METIS)))
+-    # METIS is requested.  See if it is available
+-    ifeq ($(METIS_PATH), $(wildcard $(METIS_PATH)))
 -        ifeq (../../CAMD, $(wildcard ../../CAMD))
 -            ifeq (../../CCOLAMD, $(wildcard ../../CCOLAMD))
--                # METIS, CAMD, and CCOLAMD is available
-+    ifeq ($(WITH_METIS), 1)
-+                # assume that METIS, CAMD, and CCOLAMD are available
-                 CONFIG =
--                LIB_WITH_PARTITION = $(METIS) \
--                    ../../CCOLAMD/Lib/libccolamd.a \
+-                # METIS, CAMD, and CCOLAMD are available
+-                LIB_WITH_PARTITION = $(METIS) ../../CCOLAMD/Lib/libccolamd.a \
 -                    ../../CAMD/Lib/libcamd.a
+-                I_WITH_PARTITION = -I$(METIS_PATH)/Lib \
+-                    -I../../CCOLAMD/Include -I../../CAMD/Include
++    # METIS is requested.
++    ifeq ($(WITH_METIS), 1)
++                LIB_WITH_PARTITION = -lmetis -lccolamd -lcamd
++                I_WITH_PARTITION = -I/usr/include/metis \
++                    -I/usr/include/ccolamd -I/usr/include/camd
+                 CONFIG =
 -            endif
 -        endif
-+                LIB_WITH_PARTITION = $(METIS) -lccolamd -lcamd
      endif
  endif
  #-------------------------------------------------------------------------------
@@ -81,12 +93,13 @@
 -        ../../SuiteSparse_config/libsuitesparseconfig.a \
 -	../../CHOLMOD/Lib/libcholmod.a ../../AMD/Lib/libamd.a \
 -	../../COLAMD/Lib/libcolamd.a $(LIB_WITH_PARTITION)
++        -lsuitesparseconfig \
 +	-lcholmod -lamd \
 +	-lcolamd $(LIB_WITH_PARTITION)
  
  # use the BLAS and LAPACK defined by SuiteSparse_config.mk; do not use valgrind 
  FLIB = $(LAPACK) $(BLAS)
-@@ -140,7 +133,7 @@
+@@ -145,7 +139,7 @@
  	../Include/SuiteSparseQR_definitions.h \
  	../Include/SuiteSparseQR.hpp Makefile
  

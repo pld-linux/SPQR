@@ -208,18 +208,18 @@
  spqr_rmap.o: ../Source/spqr_rmap.cpp
 -	$(C) -c $<
 +	libtool --tag=CXX --mode=compile $(C) -c $<
---- SPQR/Demo/Makefile.orig	2012-06-27 19:01:18.418478492 +0200
-+++ SPQR/Demo/Makefile	2012-06-27 19:01:37.301811034 +0200
-@@ -23,7 +23,7 @@
+--- SPQR/Demo/Makefile.orig	2012-08-28 19:39:55.567055739 +0200
++++ SPQR/Demo/Makefile	2012-08-28 19:40:51.427054575 +0200
+@@ -25,7 +25,7 @@
  endif
  #-------------------------------------------------------------------------------
  
 -CLIB = ../Lib/libspqr.a \
 +CLIB = ../Lib/libspqr.la \
+         -lsuitesparseconfig \
  	-lcholmod -lamd \
  	-lcolamd $(LIB_WITH_PARTITION)
- 
-@@ -140,22 +140,22 @@
+@@ -146,22 +146,22 @@
  LIBS = $(CLIB) $(LIB) $(FLIB) $(TBB)
  
  qrsimple: qrsimple.cpp library $(INC)
