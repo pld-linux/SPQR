@@ -1,12 +1,12 @@
 Summary:	SuiteSparseQR: multithreaded multifrontal sparse QR factorization
 Summary(pl.UTF-8):	SuiteSparseQR - wielowątkowy, wielofrontalny rozkład QR dla macierzy rzadkich
 Name:		SPQR
-Version:	1.3.1
+Version:	1.3.3
 Release:	1
 License:	GPL v2+
 Group:		Libraries
 Source0:	http://www.cise.ufl.edu/research/sparse/SPQR/%{name}-%{version}.tar.gz
-# Source0-md5:	c1a55e7ac6208f7657186aa01356c8f2
+# Source0-md5:	bdd05fa144f68fe318510888a89e9906
 Patch0:		%{name}-ufconfig.patch
 Patch1:		%{name}-shared.patch
 URL:		http://www.cise.ufl.edu/research/sparse/SPQR/
