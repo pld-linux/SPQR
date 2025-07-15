@@ -65,8 +65,8 @@ Statyczna biblioteka SPQR.
 
 %prep
 %setup -q -n %{name}
-%patch0 -p1
-%patch1 -p1
+%patch -P0 -p1
+%patch -P1 -p1
 
 %build
 %{__make} \
